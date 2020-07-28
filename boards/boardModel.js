@@ -1,22 +1,5 @@
 const pool = require('../config')
-
-const validateBoardAndUser = async (userId, boardId) => {
-  let board = await pool.query(`SELECT * FROM boards WHERE id=${boardId};`)
-
-  if (board.rowCount === 0) {
-    return { status: 404, message: `Can't find board with id ${boardId}` }
-  }
-
-  board = await pool.query(
-      `SELECT * FROM boards WHERE  id=${boardId} and user_id=${userId};`
-  )
-
-  if (board.rowCount === 0) {
-    return { status: 403, message: 'Not Authorized User' }
-  }
-
-  return null
-}
+const { validateBoardAndUser } = require('../utils/checkAccess')
 
 const getBoards = async (req, res) => {
   const userId = req.user.userId
@@ -53,7 +36,7 @@ const updateBoard = async (req, res) => {
   const { boardName } = req.body
 
   try {
-    const result = await validateBoardAndUser(userId, boardId)
+    const result = await validateBoardAndUser(pool, userId, boardId)
 
     if (result) {
       const { status, message } = result
@@ -79,7 +62,7 @@ const deleteBoard = async (req, res) => {
   const boardId = Number(req.params.bid)
 
   try {
-    const result = await validateBoardAndUser(userId, boardId)
+    const result = await validateBoardAndUser(pool, userId, boardId)
 
     if (result) {
       const { status, message } = result

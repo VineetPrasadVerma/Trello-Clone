@@ -1,47 +1,15 @@
 const pool = require('../config')
-
-const validateBoardAndUser = async (userId, boardId) => {
-  let board = await pool.query(`SELECT * FROM boards WHERE id=${boardId};`)
-
-  if (board.rowCount === 0) {
-    return { status: 404, message: `Can't find board with id ${boardId}` }
-  }
-
-  board = await pool.query(
-    `SELECT * FROM boards WHERE id=${boardId} and user_id=${userId};`
-  )
-
-  if (board.rowCount === 0) {
-    return { status: 403, message: 'Not Authorized User' }
-  }
-
-  return null
-}
-
-const validateListAndBoard = async (listId, boardId) => {
-  let list = await pool.query(`SELECT * FROM lists WHERE id=${listId};`)
-
-  if (list.rowCount === 0) {
-    return { status: 404, message: `Can't find list with id ${listId}` }
-  }
-
-  list = await pool.query(
-    `SELECT * FROM lists WHERE id=${listId} and board_id=${boardId};`
-  )
-
-  if (list.rowCount === 0) {
-    return { status: 403, message: 'Not Authorized' }
-  }
-
-  return null
-}
+const {
+  validateBoardAndUser,
+  validateListAndBoard
+} = require('../utils/checkAccess')
 
 const getLists = async (req, res) => {
   const userId = Number(req.user.userId)
   const boardId = Number(req.params.bid)
 
   try {
-    const result = await validateBoardAndUser(userId, boardId)
+    const result = await validateBoardAndUser(pool, userId, boardId)
 
     if (result) {
       const { status, message } = result
@@ -64,7 +32,7 @@ const createList = async (req, res) => {
   const { listName } = req.body
 
   try {
-    const result = await validateBoardAndUser(userId, boardId)
+    const result = await validateBoardAndUser(pool, userId, boardId)
 
     if (result) {
       const { status, message } = result
@@ -88,14 +56,14 @@ const updateList = async (req, res) => {
   const { listName } = req.body
 
   try {
-    let result = await validateBoardAndUser(userId, boardId)
+    let result = await validateBoardAndUser(pool, userId, boardId)
 
     if (result) {
       const { status, message } = result
       return res.status(status).json({ message: message })
     }
 
-    result = await validateListAndBoard(listId, boardId)
+    result = await validateListAndBoard(pool, listId, boardId)
 
     if (result) {
       const { status, message } = result
@@ -117,32 +85,34 @@ const updateList = async (req, res) => {
 }
 
 const deleteList = async (req, res) => {
-  const listId = Number(req.user.lid)
+  const listId = Number(req.params.lid)
   const userId = Number(req.user.userId)
   const boardId = Number(req.params.bid)
 
   try {
-    let result = await validateBoardAndUser(userId, boardId)
+    let result = await validateBoardAndUser(pool, userId, boardId)
 
     if (result) {
       const { status, message } = result
       return res.status(status).json({ message: message })
     }
 
-    result = await validateListAndBoard(listId, boardId)
+    result = await validateListAndBoard(pool, listId, boardId)
 
     if (result) {
       const { status, message } = result
       return res.status(status).json({ message: message })
     }
 
-    await pool.query(
-      `DELETE FROM lists WHERE id = ${listId};`
-    )
+    const list = await pool.query(`SELECT cards from lists where id=${listId}`)
+    const cardsId = list.rows[0].cards
+
+    await pool.query(`DELETE FROM lists WHERE id = ${listId};`)
+    await pool.query(`DELETE FROM cards WHERE id in (${cardsId});`)
 
     res.status(200).json({ message: `List deleted with ID: ${listId}` })
   } catch (e) {
-    // console.log(e)
+    console.log(e)
     res
       .status(500)
       .json({ message: `Can't delete list of ${req.params.lid} id` })

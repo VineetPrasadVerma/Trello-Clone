@@ -3,12 +3,7 @@ const router = express.Router({ mergeParams: true })
 
 const auth = require('../middleware/authorization')
 
-const {
-  getLists,
-  createList,
-  updateList,
-  deleteList
-} = require('./listModel')
+const { getLists, createList, updateList, deleteList } = require('./listModel')
 
 router.get('/', auth, getLists)
 
