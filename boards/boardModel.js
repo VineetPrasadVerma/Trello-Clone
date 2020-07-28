@@ -1,5 +1,23 @@
 const pool = require('../config')
 
+const validateBoardAndUser = async (userId, boardId) => {
+  let board = await pool.query(`SELECT * FROM boards WHERE id=${boardId};`)
+
+  if (board.rowCount === 0) {
+    return { status: 404, message: `Can't find board with id ${boardId}` }
+  }
+
+  board = await pool.query(
+      `SELECT * FROM boards WHERE  id=${boardId} and user_id=${userId};`
+  )
+
+  if (board.rowCount === 0) {
+    return { status: 403, message: 'Not Authorized User' }
+  }
+
+  return null
+}
+
 const getBoards = async (req, res) => {
   const userId = req.user.userId
 
@@ -10,7 +28,7 @@ const getBoards = async (req, res) => {
 
     return res.status(200).json(result.rows)
   } catch (err) {
-    return res.status(500).json({ message: 'Server Error' })
+    return res.status(500).json({ message: "Can't get boards" })
   }
 }
 
@@ -25,7 +43,7 @@ const createBoard = async (req, res) => {
 
     return res.status(201).json(result.rows)
   } catch (err) {
-    return res.status(500).json({ message: 'Server Error' })
+    return res.status(500).json({ message: "Can't add board" })
   }
 }
 
@@ -35,15 +53,16 @@ const updateBoard = async (req, res) => {
   const { boardName } = req.body
 
   try {
-    const result = await pool.query(
-      `UPDATE boards SET name = '${boardName}' WHERE id=${boardId} and user_id=${userId};`
-    )
+    const result = await validateBoardAndUser(userId, boardId)
 
-    if (result.rowCount === 0) {
-      return res
-        .status(404)
-        .json({ message: `Can't find board with id ${boardId}` })
+    if (result) {
+      const { status, message } = result
+      return res.status(status).json({ message: message })
     }
+
+    await pool.query(
+      `UPDATE boards SET name = '${boardName}' WHERE id=${boardId};`
+    )
 
     return res
       .status(200)
@@ -60,15 +79,17 @@ const deleteBoard = async (req, res) => {
   const boardId = Number(req.params.bid)
 
   try {
-    const result = await pool.query(
+    const result = await validateBoardAndUser(userId, boardId)
+
+    if (result) {
+      const { status, message } = result
+      return res.status(status).json({ message: message })
+    }
+
+    await pool.query(
       `DELETE FROM boards WHERE id =${boardId} and user_id=${userId};`
     )
 
-    if (result.rowCount === 0) {
-      return res
-        .status(404)
-        .json({ message: `Can't find board with id ${boardId}` })
-    }
     res.status(200).json({ message: `Board deleted with ID: ${boardId}` })
   } catch (e) {
     // console.log(e)
