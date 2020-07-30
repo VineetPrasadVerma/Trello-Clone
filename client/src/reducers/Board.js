@@ -1,12 +1,12 @@
-import { GET_BOARDS } from '../contexts/actionType'
+import { GET_BOARDS, ADD_BOARD } from '../contexts/actionType'
 
 export const Reducer = (state, action) => {
   switch (action.type) {
     case GET_BOARDS:
       return [...action.boards]
 
-    case 'ADD_TASK':
-      return [...state, { _id: action.task.taskId, name: action.task.name }]
+    case ADD_BOARD:
+      return [...state, action.board.newBoard]
 
     case 'DELETE_TASK':
       return state.filter((task) => task._id !== action.task.taskId)
