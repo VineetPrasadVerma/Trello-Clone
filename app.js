@@ -5,12 +5,15 @@ const boardRoutes = require('./boards/boardRoute')
 const listRoutes = require('./lists/listRoute')
 const cardRoutes = require('./cards/cardRoute')
 
+const cors = require('cors')
 const express = require('express')
 
 const app = express()
 
+app.use(cors())
 app.use(express.json())
 
+// ROUTES
 app.use('/', userRoutes)
 app.use('/boards', boardRoutes)
 app.use('/boards/:bid/lists', listRoutes)
