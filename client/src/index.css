@@ -29,10 +29,56 @@ textarea {
 }
 
 .boardItem {
-  width: 200px;
-  height: 150px;
+  width: 150px;
+  height: 100px;
   border: 25px solid white;
   border-radius: 2em;
   background-color: rgb(75, 191, 107);
+  text-align: center;
+}
+
+.boardItem p{
+  margin-top: 35px;
+}
+
+.boardItem input{
+  margin-top: 30px;
+}
+
+nav {
+  background-color: lightgreen;
+  padding: 0.4em;
+  margin: 0 0 0.5em 0;
+  box-sizing: border-box;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.nav {
+  font-family: inherit;
+  font-size: inherit;
+  background-color: lightgreen;
+  border: 0px solid green;
+  border-radius: 5px;
+  color: #333;
+  margin: 3px 10px;
+}
+
+.nav:hover {
+  color: white;
+}
+
+#header {
+  font-style: italic;
+  font-weight: bold;
+  font-size: larger;
+}
+
+a {
+  text-decoration: none;
+}
+
+.error{
+  margin: 100px auto;
   text-align: center;
 }

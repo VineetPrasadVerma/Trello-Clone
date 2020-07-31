@@ -29,14 +29,13 @@ const Board = ({ handleError }) => {
       {boards.map((board) => {
         return (
           <div className='boardItem' key={board.id}>
-            <p style={{ marginTop: '65px' }}>{board.name}</p>
+            <p>{board.name}</p>
           </div>
         )
       })}
       <div className='boardItem' style={{ backgroundColor: 'lightgreen' }}>
         <form onSubmit={handleAddBoard}>
           <input
-            style={{ marginTop: '60px' }}
             type='text'
             value={boardName}
             placeholder='Add New Board'

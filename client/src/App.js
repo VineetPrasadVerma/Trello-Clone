@@ -1,6 +1,10 @@
 import React, { useState } from 'react'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+
 import Board from './components/Boards'
+import Navbar from './components/Navbar'
 import { Provider as BoardProvider } from './contexts/Board'
+
 import Error from './shared/Error'
 
 function App () {
@@ -14,9 +18,17 @@ function App () {
 
   return !error ? (
     <div className='App'>
-      <BoardProvider>
-        <Board handleError={showError} />
-      </BoardProvider>
+      <Router>
+        <BoardProvider>
+          <Navbar />
+          <Switch>
+            <Route path='/boards'>
+              <Board handleError={showError} />
+            </Route>
+          </Switch>
+        </BoardProvider>
+
+      </Router>
     </div>
   ) : (
     <Error message={message} />
