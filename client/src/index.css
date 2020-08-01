@@ -75,10 +75,26 @@ nav {
 }
 
 a {
+  color: #333;
   text-decoration: none;
 }
 
 .error{
   margin: 100px auto;
+  text-align: center;
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 25px;
+}
+
+.listItem {
+  width: 150px;
+  height: 100px;
+  border: 25px solid white;
+  border-radius: 2em;
+  background-color: rgb(75, 191, 107);
   text-align: center;
 }

@@ -1,4 +1,6 @@
 import React, { useContext, useState } from 'react'
+import { Link } from 'react-router-dom'
+
 import { Context as BoardContext } from '../../contexts/Board'
 import { addBoard } from '../../services/Board'
 
@@ -28,9 +30,11 @@ const Board = ({ handleError }) => {
     <div className='board'>
       {boards.map((board) => {
         return (
-          <div className='boardItem' key={board.id}>
-            <p>{board.name}</p>
-          </div>
+          <Link key={board.id} to={`/boards/${board.id}/lists`}>
+            <div className='boardItem'>
+              <p>{board.name}</p>
+            </div>
+          </Link>
         )
       })}
       <div className='boardItem' style={{ backgroundColor: 'lightgreen' }}>

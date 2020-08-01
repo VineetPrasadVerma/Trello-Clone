@@ -10,7 +10,7 @@ export const Provider = (props) => {
   useEffect(() => {
     const fetchBoards = async () => {
       try {
-        const res = await axios.get('boards/')
+        const res = await axios.get('/boards/')
         dispatch({ type: 'GET_BOARDS', boards: res.data })
       } catch (err) {
         props.handleError("Can't get boards")

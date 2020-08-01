@@ -8,7 +8,9 @@ const Navbar = () => {
         <p className='nav'>Boards</p>
       </Link>
       <Link to='/boards'>
-        <span id='header' className='nav'>Trello</span>
+        <span id='header' className='nav'>
+          Trello
+        </span>
       </Link>
       <Link to='/boards' style={{ float: 'right' }}>
         <p className='nav'>Logout</p>

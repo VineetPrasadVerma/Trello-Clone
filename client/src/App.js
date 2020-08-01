@@ -3,7 +3,9 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
 import Board from './components/Boards'
 import Navbar from './components/Navbar'
+import List from './components/Lists'
 import { Provider as BoardProvider } from './contexts/Board'
+import { Provider as ListProvider } from './contexts/List'
 
 import Error from './shared/Error'
 
@@ -19,12 +21,20 @@ function App () {
   return !error ? (
     <div className='App'>
       <Router>
-        <BoardProvider>
+        <BoardProvider handleError={showError}>
           <Navbar />
           <Switch>
-            <Route path='/boards'>
+
+            <Route path='/boards' exact>
               <Board handleError={showError} />
             </Route>
+
+            <Route path='/boards/:bid/lists'>
+              <ListProvider handleError={showError}>
+                <List handleError={showError} />
+              </ListProvider>
+            </Route>
+
           </Switch>
         </BoardProvider>
 
