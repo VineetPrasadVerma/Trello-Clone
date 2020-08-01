@@ -5,13 +5,13 @@ import axios from 'axios'
 export const Context = createContext()
 
 export const Provider = (props) => {
-  const [boards, dispatch] = useReducer(BoardReducer, [])
+  const [boards, boardsDispatch] = useReducer(BoardReducer, [])
 
   useEffect(() => {
     const fetchBoards = async () => {
       try {
         const res = await axios.get('/boards/')
-        dispatch({ type: 'GET_BOARDS', boards: res.data })
+        boardsDispatch({ type: 'GET_BOARDS', boards: res.data })
       } catch (err) {
         props.handleError("Can't get boards")
       }
@@ -21,7 +21,7 @@ export const Provider = (props) => {
   }, [])
 
   return (
-    <Context.Provider value={{ boards, dispatch }}>
+    <Context.Provider value={{ boards, boardsDispatch }}>
       {props.children}
     </Context.Provider>
   )

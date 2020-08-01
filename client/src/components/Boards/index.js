@@ -5,7 +5,7 @@ import { Context as BoardContext } from '../../contexts/Board'
 import { addBoard } from '../../services/Board'
 
 const Board = ({ handleError }) => {
-  const { boards, dispatch } = useContext(BoardContext)
+  const { boards, boardsDispatch } = useContext(BoardContext)
   const [boardName, setBoardName] = useState('')
 
   const handleAddBoard = async (event) => {
@@ -15,7 +15,7 @@ const Board = ({ handleError }) => {
       try {
         const res = await addBoard(boardName)
 
-        dispatch({
+        boardsDispatch({
           type: 'ADD_BOARD',
           board: { newBoard: res.data[0] }
         })

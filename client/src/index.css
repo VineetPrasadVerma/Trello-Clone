@@ -12,7 +12,6 @@ textarea {
   font-family: inherit;
   font-size: inherit;
   padding: 0.4em;
-  margin: 0 0 0.5em 0;
   box-sizing: border-box;
   background-color: lightgreen;
   border: 0px solid lightgreen;
@@ -20,6 +19,7 @@ textarea {
   width: 100%;
   text-align: center;
   outline: none;
+  cursor: pointer;
 }
 
 .board {
@@ -33,20 +33,21 @@ textarea {
   height: 100px;
   border: 25px solid white;
   border-radius: 2em;
-  background-color: rgb(75, 191, 107);
+  background-color: rgb(75, 195, 107);
   text-align: center;
+  font-weight: bold;
 }
 
-.boardItem p{
+.boardItem p {
   margin-top: 35px;
 }
 
-.boardItem input{
+.boardItem input {
   margin-top: 30px;
 }
 
 nav {
-  background-color: lightgreen;
+  background-color: rgb(75, 195, 110);
   padding: 0.4em;
   margin: 0 0 0.5em 0;
   box-sizing: border-box;
@@ -57,11 +58,10 @@ nav {
 .nav {
   font-family: inherit;
   font-size: inherit;
-  background-color: lightgreen;
-  border: 0px solid green;
+  font-weight: bold;
   border-radius: 5px;
   color: #333;
-  margin: 3px 10px;
+  margin: 5px 10px;
 }
 
 .nav:hover {
@@ -71,7 +71,7 @@ nav {
 #header {
   font-style: italic;
   font-weight: bold;
-  font-size: larger;
+  font-size: x-large;
 }
 
 a {
@@ -79,22 +79,50 @@ a {
   text-decoration: none;
 }
 
-.error{
+.error {
   margin: 100px auto;
   text-align: center;
+}
+
+#listContainer {
+  height: 100vh;
+  background-color: rgb(65, 158, 90);
+  border-radius: 5px;
 }
 
 .list {
   display: flex;
   flex-wrap: wrap;
-  margin: 25px;
 }
 
-.listItem {
-  width: 150px;
-  height: 100px;
-  border: 25px solid white;
-  border-radius: 2em;
-  background-color: rgb(75, 191, 107);
-  text-align: center;
+.listItem, .addListForm{
+  width: 280px;
+  background-color: #ebecf0;
+  border-radius: 5px;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: 20px;
+}
+
+.listName{
+  resize: none;
+  background-color: #ebecf0;
+  text-align: left;
+  padding-left: 15px;
+  padding-top: 15px;
+}
+
+.editForm {
+  background-color: rgb(65, 158, 90);
+  text-align: left;
+  margin: 20px 40px;
+  cursor: pointer;
+  width: auto;
+  color: white;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.editForm:hover{
+  background-color: rgb(75, 195, 107);
 }
