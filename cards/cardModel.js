@@ -26,9 +26,16 @@ const getCards = async (req, res) => {
       return res.status(status).json({ message: message })
     }
 
-    const cards = await pool.query(
-      `SELECT cards FROM lists WHERE id=${listId};`
+    const cardsArr = await pool.query(
+      `SELECT card_ids FROM lists WHERE id=${listId};`
     )
+
+    let cards = { rows: [] }
+    if (cardsArr.rows[0].card_ids.length) {
+      cards = await pool.query(
+      `SELECT * FROM cards WHERE id in (${cardsArr.rows[0].card_ids});`
+      )
+    }
 
     return res.status(200).json(cards.rows)
   } catch (err) {

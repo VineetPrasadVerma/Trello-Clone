@@ -1,4 +1,4 @@
-import { GET_LISTS, ADD_LIST } from '../contexts/actionType'
+import { GET_LISTS, ADD_LIST, SET_CARDS } from '../contexts/actionType'
 
 export const Reducer = (state, action) => {
   switch (action.type) {
@@ -7,6 +7,14 @@ export const Reducer = (state, action) => {
 
     case ADD_LIST:
       return [...state, action.list.newList]
+
+    case SET_CARDS:
+      return state.map(list => {
+        if (list.id === action.listId) {
+          list.cards = action.cards
+        }
+        return list
+      })
 
     case 'DELETE_TASK':
       return state.filter((task) => task._id !== action.task.taskId)

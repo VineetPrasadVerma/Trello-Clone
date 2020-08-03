@@ -1,9 +1,13 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEllipsisH } from '@fortawesome/free-solid-svg-icons'
+
 import { Context as ListContext } from '../../contexts/List'
 import { Context as BoardContext } from '../../contexts/Board'
 import { addList } from '../../services/List'
+import Card from '../Cards'
 
 const List = ({ handleError }) => {
   const { boards, boardsDispatch } = useContext(BoardContext)
@@ -52,25 +56,36 @@ const List = ({ handleError }) => {
           onChange={(e) => setBoardName(e.target.value)}
         />
       </form>
+
       <div className='list'>
+
         {lists.map((list) => {
           return (
             <div key={list.id} className='listItem'>
-              <textarea
-                className='listName'
-                defaultValue={list.name}
-                onBlur={(e) => {
-                  return updateList(e.target.value)
-                }}
-              />
-              <div style={{ backgroundColor: 'white' }}>Vineet</div>
-              <div>Vineet</div>
-              <div>Vineet</div>
-              <div>Vineet</div>
+
+              <div style={{ display: 'flex' }}>
+
+                <textarea
+                  className='listName'
+                  defaultValue={list.name}
+                  onBlur={(e) => {
+                    return updateList(e.target.value)
+                  }}
+                />
+
+                <FontAwesomeIcon
+                  style={{ padding: '15px', float: 'right' }}
+                  icon={faEllipsisH}
+                />
+              </div>
+
+              <Card bid={bid} lid={list.id} />
+
             </div>
           )
         })}
         <div>
+
           <form onSubmit={handleAddList}>
             <input
               className='addListForm'
@@ -80,6 +95,7 @@ const List = ({ handleError }) => {
               onChange={(e) => setListName(e.target.value)}
             />
           </form>
+
         </div>
       </div>
     </div>

@@ -28,6 +28,7 @@ const Board = ({ handleError }) => {
 
   return (
     <div className='board'>
+
       {boards.map((board) => {
         return (
           <Link key={board.id} to={`/boards/${board.id}/lists`}>
@@ -37,7 +38,9 @@ const Board = ({ handleError }) => {
           </Link>
         )
       })}
+
       <div className='boardItem' style={{ backgroundColor: 'lightgreen' }}>
+
         <form onSubmit={handleAddBoard}>
           <input
             type='text'
@@ -46,6 +49,7 @@ const Board = ({ handleError }) => {
             onChange={(e) => setBoardName(e.target.value)}
           />
         </form>
+
       </div>
     </div>
   )
