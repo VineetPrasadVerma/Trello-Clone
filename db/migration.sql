@@ -41,7 +41,7 @@ ALTER TABLE lists ADD CONSTRAINT lists_board_id_fkey FOREIGN KEY(board_id) REFER
 
 ALTER TABLE lists ADD COLUMN card_ids integer[];
 
-ALTER TABLE lists ALTER COLUMN cards SET DEFAULT array[]::integer[];
+ALTER TABLE lists ALTER COLUMN card_ids SET DEFAULT array[]::integer[];
 
 
 

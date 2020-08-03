@@ -20,8 +20,8 @@ textarea {
   text-align: center;
   outline: none;
   cursor: pointer;
+  resize: none;
 }
-
 
 .board {
   display: flex;
@@ -143,6 +143,9 @@ a {
   background-color: rgb(75, 195, 107);
 }
 
+.cardContainer{
+  margin: 15px;
+}
 .cardItem {
   background-color: #fff;
   padding: 5px;
@@ -152,7 +155,7 @@ a {
 }
 
 .addCardForm{
-  margin-top: 15px;
+  border-radius: 3px;
 }
 
 .addCardForm::placeholder{

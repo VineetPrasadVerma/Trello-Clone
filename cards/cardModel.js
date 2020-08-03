@@ -70,7 +70,7 @@ const createCard = async (req, res) => {
     )
 
     await pool.query(
-      `UPDATE lists SET cards=array_append(cards, ${card.rows[0].id}) WHERE id=${listId}`
+      `UPDATE lists SET card_ids=array_append(card_ids, ${card.rows[0].id}) WHERE id=${listId}`
     )
 
     return res.status(201).json(card.rows)
@@ -153,7 +153,7 @@ const deleteCard = async (req, res) => {
 
     await pool.query(`DELETE FROM cards WHERE id = ${cardId};`)
     await pool.query(
-      `UPDATE lists SET cards=array_remove(cards, ${cardId}) WHERE id=${listId};`
+      `UPDATE lists SET card_ids=array_remove(card_ids, ${cardId}) WHERE id=${listId};`
     )
     res.status(200).json({ message: `Card deleted with ID: ${cardId}` })
   } catch (e) {

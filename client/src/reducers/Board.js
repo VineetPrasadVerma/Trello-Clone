@@ -1,4 +1,4 @@
-import { GET_BOARDS, ADD_BOARD } from '../contexts/actionType'
+import { GET_BOARDS, ADD_BOARD, UPDATE_BOARD, DELETE_BOARD } from '../contexts/actionType'
 
 export const Reducer = (state, action) => {
   switch (action.type) {
@@ -8,15 +8,15 @@ export const Reducer = (state, action) => {
     case ADD_BOARD:
       return [...state, action.board.newBoard]
 
-    case 'DELETE_TASK':
-      return state.filter((task) => task._id !== action.task.taskId)
+    case DELETE_BOARD:
+      return state.filter(board => board.id !== action.board.bid)
 
-    case 'UPDATE_TASK':
-      return state.map((task) => {
-        if (task._id === action.task.taskId) {
-          task.name = action.task.name
+    case UPDATE_BOARD:
+      return state.map(board => {
+        if (board.id === Number(action.board.bid)) {
+          board.name = action.board.boardName
         }
-        return task
+        return board
       })
 
     default:

@@ -4,10 +4,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit } from '@fortawesome/free-solid-svg-icons'
 
 import { Context as listContext } from '../../contexts/List'
+import { addCard } from '../../services/List'
 
 import axios from 'axios'
 
-const Card = ({ bid, lid }) => {
+const Card = ({ handleError, bid, lid }) => {
   const { lists, listsDispatch } = useContext(listContext)
   const [cardName, setCardName] = useState('')
 
@@ -17,7 +18,7 @@ const Card = ({ bid, lid }) => {
         const res = await axios.get(`/boards/${bid}/lists/${lid}/cards/`)
         listsDispatch({ type: 'SET_CARDS', listId: lid, cards: res.data })
       } catch (err) {
-        // props.handleError("Can't get Lists")
+        handleError("Can't get Cards")
       }
     }
 
@@ -26,8 +27,24 @@ const Card = ({ bid, lid }) => {
 
   const list = lists.find((list) => list.id === lid)
 
-  const handleAddCard = (event) => {
-    console.log(event)
+  const handleAddCard = async (event) => {
+    event.preventDefault()
+
+    if (cardName) {
+      try {
+        const res = await addCard(cardName, bid, lid)
+
+        listsDispatch({
+          type: 'ADD_CARD',
+          card: { newCard: res.data[0] },
+          list: { lid }
+        })
+
+        setCardName('')
+      } catch (err) {
+        handleError("Can't add Card")
+      }
+    }
   }
 
   return list.cards ? (

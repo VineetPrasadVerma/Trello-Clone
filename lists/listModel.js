@@ -17,7 +17,7 @@ const getLists = async (req, res) => {
     }
 
     const lists = await pool.query(
-      `SELECT * FROM lists WHERE board_id=${boardId};`
+      `SELECT * FROM lists WHERE board_id=${boardId} ORDER BY id;`
     )
 
     return res.status(200).json(lists.rows)

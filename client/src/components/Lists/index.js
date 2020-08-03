@@ -6,8 +6,9 @@ import { faEllipsisH } from '@fortawesome/free-solid-svg-icons'
 
 import { Context as ListContext } from '../../contexts/List'
 import { Context as BoardContext } from '../../contexts/Board'
-import { addList } from '../../services/List'
 import Card from '../Cards'
+import { updateBoardName } from '../../services/Board'
+import { addList, updateListName } from '../../services/List'
 
 const List = ({ handleError }) => {
   const { boards, boardsDispatch } = useContext(BoardContext)
@@ -28,11 +29,11 @@ const List = ({ handleError }) => {
 
     if (listName) {
       try {
-        const res = await addList(listName)
+        const res = await addList(bid, listName)
 
         listsDispatch({
           type: 'ADD_LIST',
-          board: { newList: res.data[0] }
+          list: { newList: res.data[0] }
         })
         setListName('')
       } catch (err) {
@@ -41,51 +42,65 @@ const List = ({ handleError }) => {
     }
   }
 
-  const updateList = (event) => {
-    console.log(event)
+  const handleUpdateBoardName = async (boardName) => {
+    if (boardName) {
+      try {
+        await updateBoardName(boardName, bid)
+
+        boardsDispatch({ type: 'UPDATE_BOARD', board: { bid, boardName } })
+      } catch (err) {
+        handleError("Can't Update Board Name")
+      }
+    }
+  }
+
+  const handleUpdateList = async (listName, lid) => {
+    if (listName !== '') {
+      try {
+        await updateListName(listName, bid, lid)
+
+        listsDispatch({ type: 'UPDATE_LISTNAME', list: { lid, listName } })
+      } catch (err) {
+        handleError("Can't Update List Name")
+      }
+    }
   }
 
   return boardName ? (
     <div id='listContainer'>
-      <form>
-        <input
-          className='editForm'
-          type='text'
-          value={boardName}
-          placeholder='Edit Board'
-          onChange={(e) => setBoardName(e.target.value)}
-        />
-      </form>
+      <input
+        className='editForm'
+        type='text'
+        defaultValue={boardName}
+        placeholder='Edit Board Name'
+        onBlur={(e) => handleUpdateBoardName(e.target.value)}
+      />
 
       <div className='list'>
-
         {lists.map((list) => {
           return (
             <div key={list.id} className='listItem'>
-
               <div style={{ display: 'flex' }}>
-
-                <textarea
+                <input
                   className='listName'
+                  placeholder='Edit List Name'
                   defaultValue={list.name}
                   onBlur={(e) => {
-                    return updateList(e.target.value)
+                    handleUpdateList(e.target.value, list.id)
                   }}
                 />
 
                 <FontAwesomeIcon
-                  style={{ padding: '15px', float: 'right' }}
+                  style={{ margin: '15px' }}
                   icon={faEllipsisH}
                 />
               </div>
 
-              <Card bid={bid} lid={list.id} />
-
+              <Card handleError={handleError} bid={bid} lid={list.id} />
             </div>
           )
         })}
         <div>
-
           <form onSubmit={handleAddList}>
             <input
               className='addListForm'
@@ -95,7 +110,6 @@ const List = ({ handleError }) => {
               onChange={(e) => setListName(e.target.value)}
             />
           </form>
-
         </div>
       </div>
     </div>

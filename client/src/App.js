@@ -21,6 +21,7 @@ function App () {
   return !error ? (
     <div className='App'>
       <Router>
+
         <BoardProvider handleError={showError}>
           <Navbar />
           <Switch>
