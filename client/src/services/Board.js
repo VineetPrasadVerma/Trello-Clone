@@ -25,7 +25,7 @@ const updateBoardName = async (boardName, bid) => {
 const deleteBoard = async (bid) => {
   const res = await axios({
     method: 'DELETE',
-    url: `boards/:${bid}`
+    url: `/boards/${bid}`
   })
 
   return res

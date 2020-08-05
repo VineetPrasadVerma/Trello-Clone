@@ -2,11 +2,12 @@ import React, { useContext, useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEllipsisH } from '@fortawesome/free-solid-svg-icons'
+import { faEllipsisH, faBars } from '@fortawesome/free-solid-svg-icons'
 
 import { Context as ListContext } from '../../contexts/List'
 import { Context as BoardContext } from '../../contexts/Board'
 import Card from '../Cards'
+import BoardMenu from '../Boards/BoardMenu'
 import { updateBoardName } from '../../services/Board'
 import { addList, updateListName } from '../../services/List'
 
@@ -18,6 +19,7 @@ const List = ({ handleError }) => {
 
   const [listName, setListName] = useState('')
   const [boardName, setBoardName] = useState('')
+  const [showMenu, setShowMenu] = useState(false)
 
   useEffect(() => {
     const board = boards.filter((board) => board.id === Number(bid))[0]
@@ -66,16 +68,35 @@ const List = ({ handleError }) => {
     }
   }
 
+  const handleShowMenu = () => {
+    setShowMenu(!showMenu)
+  }
+
   return boardName ? (
     <div id='listContainer'>
-      <input
-        className='editForm'
-        type='text'
-        defaultValue={boardName}
-        placeholder='Edit Board Name'
-        onBlur={(e) => handleUpdateBoardName(e.target.value)}
-      />
+      {showMenu ? (
+        <BoardMenu
+          setShowMenu={setShowMenu}
+          bid={bid}
+          handleError={handleError}
+        />
+      ) : (
+        ''
+      )}
 
+      <div style={{ display: 'flex' }}>
+        <input
+          className='editForm'
+          type='text'
+          defaultValue={boardName}
+          placeholder='Edit Board Name'
+          onBlur={(e) => handleUpdateBoardName(e.target.value)}
+        />
+
+        <div className='barsIcon'>
+          <FontAwesomeIcon onClick={handleShowMenu} icon={faBars} />
+        </div>
+      </div>
       <div className='list'>
         {lists.map((list) => {
           return (

@@ -9,7 +9,7 @@ export const Reducer = (state, action) => {
       return [...state, action.board.newBoard]
 
     case DELETE_BOARD:
-      return state.filter(board => board.id !== action.board.bid)
+      return state.filter(board => board.id !== Number(action.board.bid))
 
     case UPDATE_BOARD:
       return state.map(board => {

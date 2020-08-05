@@ -39,7 +39,7 @@ textarea {
   font-weight: bold;
 }
 
-.boardItem ::placeholder{
+.boardItem ::placeholder {
   font-weight: 400;
 }
 
@@ -93,6 +93,8 @@ a {
   height: 100vh;
   background-color: rgb(65, 158, 90);
   border-radius: 5px;
+  display: flex;
+  flex-direction: column;
 }
 
 .list {
@@ -110,11 +112,11 @@ a {
   margin-bottom: 20px;
 }
 
-.addListForm{
-  background-color: hsla(0,0%,100%,.44);
+.addListForm {
+  background-color: hsla(0, 0%, 100%, 0.44);
 }
 
-::placeholder{
+::placeholder {
   color: #333;
   font-weight: 700;
 }
@@ -133,7 +135,6 @@ a {
   text-align: left;
   margin: 20px 40px;
   cursor: pointer;
-  width: auto;
   color: white;
   font-weight: bold;
   font-size: 20px;
@@ -143,7 +144,7 @@ a {
   background-color: rgb(75, 195, 107);
 }
 
-.cardContainer{
+.cardContainer {
   margin: 15px;
 }
 .cardItem {
@@ -154,10 +155,43 @@ a {
   cursor: pointer;
 }
 
-.addCardForm{
+.addCardForm {
   border-radius: 3px;
 }
 
-.addCardForm::placeholder{
+.addCardForm::placeholder {
   font-weight: 500;
+}
+
+.barsIcon {
+  margin: 40px;
+}
+
+.barsIcon:hover {
+  cursor: pointer;
+}
+
+.boardMenu {
+  background-color: #ebecf0;
+  height: 100vh;
+  position: fixed;
+  width: 20vw;
+  margin-left: 80vw;
+}
+
+.menuItems{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.timesIcon{
+ margin-left: 175px;
+ padding: 20px;
+ cursor: pointer;
+}
+
+hr{
+  color: black;
+  width: 100%;
 }
