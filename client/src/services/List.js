@@ -31,15 +31,4 @@ const deleteList = async (bid, lid) => {
   return res
 }
 
-const addCard = async (cardName, bid, lid) => {
-  const res = await axios({
-    method: 'POST',
-    url: `/boards/${bid}/lists/${lid}/cards`,
-    data: { cardName },
-    headers: { 'Content-type': 'application/json' }
-  })
-
-  return res
-}
-
-export { addList, updateListName, deleteList, addCard }
+export { addList, updateListName, deleteList }

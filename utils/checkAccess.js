@@ -37,7 +37,7 @@ const validateListAndBoard = async (pool, listId, boardId) => {
 
 const validateCardAndList = async (pool, cardId, listId) => {
   let card = await pool.query(
-    `SELECT ${cardId} = ANY(cards) AS card_found from lists where id=${listId};`
+    `SELECT ${cardId} = ANY(card_ids) AS card_found from lists where id=${listId};`
   )
   if (!card.rows[0].card_found) {
     card = await pool.query(`SELECT * FROM cards WHERE id=${cardId};`)

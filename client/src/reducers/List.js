@@ -4,7 +4,9 @@ import {
   SET_CARDS,
   UPDATE_LISTNAME,
   DELETE_LIST,
-  ADD_CARD
+  ADD_CARD,
+  UPDATE_CARDNAME,
+  DELETE_CARD
 } from '../contexts/actionType'
 
 export const Reducer = (state, action) => {
@@ -39,6 +41,29 @@ export const Reducer = (state, action) => {
         if (list.id === Number(action.list.lid)) {
           list.cards = [...list.cards, action.card.newCard]
           list.card_ids = [...list.card_ids, Number(action.card.newCard.id)]
+        }
+        return list
+      })
+
+    case UPDATE_CARDNAME:
+      return state.map((list) => {
+        if (list.id === Number(action.list.lid)) {
+          list.cards.map((card) => {
+            if (card.id === Number(action.card.cid)) {
+              card.name = action.card.cardName
+            }
+            return card
+          })
+        }
+        return list
+      })
+
+    case DELETE_CARD:
+      return state.map((list) => {
+        if (list.id === Number(action.list.lid)) {
+          list.cards = list.cards.filter(
+            (card) => card.id !== Number(action.card.cid)
+          )
         }
         return list
       })

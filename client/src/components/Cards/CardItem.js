@@ -4,14 +4,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit } from '@fortawesome/free-solid-svg-icons'
 import CardEdit from './CardEdit'
 
-const CardItem = ({ card }) => {
+const CardItem = ({ card, lid, bid, handleError }) => {
   const [showEditIcon, setShowEditIcon] = useState(false)
   const [x, setX] = useState(0)
   const [y, setY] = useState(0)
 
   const handleEditCardIcon = (e) => {
     setShowEditIcon(true)
-    setX(e.pageX)
+    setX(e.pageX - 100)
     setY(e.pageY)
   }
 
@@ -20,7 +20,15 @@ const CardItem = ({ card }) => {
       {card.name}
 
       {showEditIcon ? (
-        <CardEdit card={card} left={x} top={y} setShowEditIcon={setShowEditIcon} />
+        <CardEdit
+          card={card}
+          lid={lid}
+          bid={bid}
+          left={x}
+          top={y}
+          setShowEditIcon={setShowEditIcon}
+          handleError={handleError}
+        />
       ) : (
         <FontAwesomeIcon
           style={{ float: 'right', cursor: 'pointer' }}
@@ -28,7 +36,6 @@ const CardItem = ({ card }) => {
           onClick={(e) => handleEditCardIcon(e)}
         />
       )}
-
     </div>
   )
 }

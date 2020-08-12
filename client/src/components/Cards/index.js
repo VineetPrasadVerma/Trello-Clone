@@ -1,7 +1,7 @@
 import React, { useEffect, useContext, useState } from 'react'
 
 import { Context as listContext } from '../../contexts/List'
-import { addCard } from '../../services/List'
+import { addCard } from '../../services/Card'
 import CardItem from './CardItem'
 
 import axios from 'axios'
@@ -49,7 +49,13 @@ const Card = ({ handleError, bid, lid }) => {
     <div className='cardContainer'>
       {list.cards.map((card) => {
         return (
-          <CardItem key={card.id} card={card} />
+          <CardItem
+            key={card.id}
+            card={card}
+            lid={lid}
+            bid={bid}
+            handleError={handleError}
+          />
         )
       })}
 

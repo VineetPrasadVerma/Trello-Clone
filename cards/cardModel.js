@@ -33,7 +33,7 @@ const getCards = async (req, res) => {
     let cards = { rows: [] }
     if (cardsArr.rows[0].card_ids.length) {
       cards = await pool.query(
-      `SELECT * FROM cards WHERE id in (${cardsArr.rows[0].card_ids});`
+      `SELECT * FROM cards WHERE id in (${cardsArr.rows[0].card_ids}) ORDER BY id;`
       )
     }
 
@@ -96,14 +96,12 @@ const updateCard = async (req, res) => {
     }
 
     result = await validateListAndBoard(pool, listId, boardId)
-
     if (result) {
       const { status, message } = result
       return res.status(status).json({ message: message })
     }
 
     result = await validateCardAndList(pool, cardId, listId)
-
     if (result) {
       const { status, message } = result
       return res.status(status).json({ message: message })
@@ -117,6 +115,7 @@ const updateCard = async (req, res) => {
       .status(200)
       .json({ message: `Card modified with ID: ${cardId}` })
   } catch (err) {
+    console.log(err)
     return res
       .status(500)
       .json({ message: `Can't update card of ${req.params.cid} id` })
