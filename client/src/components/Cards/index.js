@@ -1,10 +1,8 @@
 import React, { useEffect, useContext, useState } from 'react'
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEdit } from '@fortawesome/free-solid-svg-icons'
-
 import { Context as listContext } from '../../contexts/List'
 import { addCard } from '../../services/List'
+import CardItem from './CardItem'
 
 import axios from 'axios'
 
@@ -51,13 +49,7 @@ const Card = ({ handleError, bid, lid }) => {
     <div className='cardContainer'>
       {list.cards.map((card) => {
         return (
-          <div className='cardItem' key={card.id}>
-            {card.name}
-            <FontAwesomeIcon
-              style={{ float: 'right' }}
-              icon={faEdit}
-            />
-          </div>
+          <CardItem key={card.id} card={card} />
         )
       })}
 
@@ -70,7 +62,6 @@ const Card = ({ handleError, bid, lid }) => {
           onChange={(e) => setCardName(e.target.value)}
         />
       </form>
-
     </div>
   ) : (
     ''

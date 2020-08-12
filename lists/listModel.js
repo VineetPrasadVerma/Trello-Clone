@@ -104,11 +104,12 @@ const deleteList = async (req, res) => {
       return res.status(status).json({ message: message })
     }
 
-    const list = await pool.query(`SELECT cards from lists where id=${listId}`)
-    const cardsId = list.rows[0].cards
+    const list = await pool.query(`SELECT card_ids from lists where id=${listId}`)
+    const cardsIds = list.rows[0].card_ids
 
     await pool.query(`DELETE FROM lists WHERE id = ${listId};`)
-    await pool.query(`DELETE FROM cards WHERE id in (${cardsId});`)
+
+    if (cardsIds.length) { await pool.query(`DELETE FROM cards WHERE id in (${cardsIds});`) }
 
     res.status(200).json({ message: `List deleted with ID: ${listId}` })
   } catch (e) {

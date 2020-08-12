@@ -6,7 +6,7 @@ import { Context as BoardContext } from '../../contexts/Board'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
-  faTrashAlt,
+  faTrash,
   faUserAlt,
   faTimes
 } from '@fortawesome/free-solid-svg-icons'
@@ -45,7 +45,7 @@ const BoardMenu = ({ setShowMenu, bid, handleError }) => {
           onClick={handleDeleteBoard}
           style={{ padding: '20px', cursor: 'pointer' }}
         >
-          <FontAwesomeIcon style={{ marginRight: '10px' }} icon={faTrashAlt} />
+          <FontAwesomeIcon style={{ marginRight: '10px' }} icon={faTrash} />
           Delete Board
         </div>
       </div>

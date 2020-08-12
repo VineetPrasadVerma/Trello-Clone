@@ -2,14 +2,14 @@ import React, { useContext, useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEllipsisH, faBars } from '@fortawesome/free-solid-svg-icons'
+import { faTrash, faBars } from '@fortawesome/free-solid-svg-icons'
 
 import { Context as ListContext } from '../../contexts/List'
 import { Context as BoardContext } from '../../contexts/Board'
 import Card from '../Cards'
 import BoardMenu from '../Boards/BoardMenu'
 import { updateBoardName } from '../../services/Board'
-import { addList, updateListName } from '../../services/List'
+import { addList, updateListName, deleteList } from '../../services/List'
 
 const List = ({ handleError }) => {
   const { boards, boardsDispatch } = useContext(BoardContext)
@@ -68,6 +68,16 @@ const List = ({ handleError }) => {
     }
   }
 
+  const handleDeleteList = async (lid) => {
+    try {
+      await deleteList(bid, lid)
+
+      listsDispatch({ type: 'DELETE_LIST', list: { lid } })
+    } catch (err) {
+      handleError("Can't Delete List")
+    }
+  }
+
   const handleShowMenu = () => {
     setShowMenu(!showMenu)
   }
@@ -112,8 +122,9 @@ const List = ({ handleError }) => {
                 />
 
                 <FontAwesomeIcon
-                  style={{ margin: '15px' }}
-                  icon={faEllipsisH}
+                  onClick={() => handleDeleteList(list.id)}
+                  style={{ margin: '15px', cursor: 'pointer' }}
+                  icon={faTrash}
                 />
               </div>
 
