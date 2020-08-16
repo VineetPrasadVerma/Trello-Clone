@@ -1,8 +1,11 @@
 const express = require('express')
 const router = express.Router()
+const auth = require('../middleware/authorization')
 
-const { registerUser } = require('./userModel')
+const { registerUser, loginUser, getCurrentUser } = require('./userModel')
 
-router.post('/', registerUser)
+router.get('/', auth, getCurrentUser)
+router.post('/', loginUser)
+router.post('/register', registerUser)
 
 module.exports = router
