@@ -6,6 +6,7 @@ import { faTrash, faBars } from '@fortawesome/free-solid-svg-icons'
 
 import { Context as ListContext } from '../../contexts/List'
 import { Context as BoardContext } from '../../contexts/Board'
+import Navbar from '../../components/Navbar'
 import Card from '../Cards'
 import BoardMenu from '../Boards/BoardMenu'
 import { updateBoardName } from '../../services/Board'
@@ -83,68 +84,71 @@ const List = ({ handleError }) => {
   }
 
   return boardName ? (
-    <div id='listContainer'>
-      {showMenu ? (
-        <BoardMenu
-          setShowMenu={setShowMenu}
-          bid={bid}
-          handleError={handleError}
-        />
-      ) : (
-        ''
-      )}
+    <>
+      <Navbar />
+      <div id='listContainer'>
+        {showMenu ? (
+          <BoardMenu
+            setShowMenu={setShowMenu}
+            bid={bid}
+            handleError={handleError}
+          />
+        ) : (
+          ''
+        )}
 
-      <div style={{ display: 'flex' }}>
-        <input
-          className='editForm'
-          type='text'
-          defaultValue={boardName}
-          placeholder='Edit Board Name'
-          onBlur={(e) => handleUpdateBoardName(e.target.value)}
-        />
+        <div style={{ display: 'flex' }}>
+          <input
+            className='editForm'
+            type='text'
+            defaultValue={boardName}
+            placeholder='Edit Board Name'
+            onBlur={(e) => handleUpdateBoardName(e.target.value)}
+          />
 
-        <div className='barsIcon'>
-          <FontAwesomeIcon onClick={handleShowMenu} icon={faBars} />
+          <div className='barsIcon'>
+            <FontAwesomeIcon onClick={handleShowMenu} icon={faBars} />
+          </div>
         </div>
-      </div>
-      <div className='list'>
-        {lists.map((list) => {
-          return (
-            <div key={list.id} className='listItem'>
-              <div style={{ display: 'flex' }}>
-                <input
-                  className='listName'
-                  placeholder='Edit List Name'
-                  defaultValue={list.name}
-                  onBlur={(e) => {
-                    handleUpdateList(e.target.value, list.id)
-                  }}
-                />
+        <div className='list'>
+          {lists.map((list) => {
+            return (
+              <div key={list.id} className='listItem'>
+                <div style={{ display: 'flex' }}>
+                  <input
+                    className='listName'
+                    placeholder='Edit List Name'
+                    defaultValue={list.name}
+                    onBlur={(e) => {
+                      handleUpdateList(e.target.value, list.id)
+                    }}
+                  />
 
-                <FontAwesomeIcon
-                  onClick={() => handleDeleteList(list.id)}
-                  style={{ margin: '15px', cursor: 'pointer' }}
-                  icon={faTrash}
-                />
+                  <FontAwesomeIcon
+                    onClick={() => handleDeleteList(list.id)}
+                    style={{ margin: '15px', cursor: 'pointer' }}
+                    icon={faTrash}
+                  />
+                </div>
+
+                <Card handleError={handleError} bid={bid} lid={list.id} />
               </div>
-
-              <Card handleError={handleError} bid={bid} lid={list.id} />
-            </div>
-          )
-        })}
-        <div>
-          <form onSubmit={handleAddList}>
-            <input
-              className='addListForm'
-              type='text'
-              value={listName}
-              placeholder='+ Add New List'
-              onChange={(e) => setListName(e.target.value)}
-            />
-          </form>
+            )
+          })}
+          <div>
+            <form onSubmit={handleAddList}>
+              <input
+                className='addListForm'
+                type='text'
+                value={listName}
+                placeholder='+ Add New List'
+                onChange={(e) => setListName(e.target.value)}
+              />
+            </form>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   ) : (
     <></>
   )

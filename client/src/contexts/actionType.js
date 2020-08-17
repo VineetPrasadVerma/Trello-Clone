@@ -13,3 +13,10 @@ export const UPDATE_LISTNAME = 'UPDATE_LISTNAME'
 export const DELETE_LIST = 'DELETE_LIST'
 export const UPDATE_CARDNAME = 'UPDATE_CARDNAME'
 export const DELETE_CARD = 'DELETE_CARD'
+
+// Auth action type
+export const LOAD_USER = 'LOAD_USER'
+export const REGISTER_USER = 'REGISTER_USER'
+export const LOGIN_USER = 'LOGIN_USER'
+export const LOGOUT_USER = 'LOGOUT_USER'
+export const AUTH_ERROR = 'AUTH_ERROR'

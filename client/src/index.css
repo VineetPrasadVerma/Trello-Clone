@@ -254,5 +254,21 @@ hr{
 .deleteButton:hover{
   margin-left: 5px;
   margin-top: 5px;
-  background-color: rgba(0,0,0,1);;
+  background-color: rgba(0,0,0,1);
+}
+
+.login{
+  width: 350px;
+  margin: 100px auto;
+}
+
+.emailContainer{
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+
+.passwordContainer{
+  margin-top: 15px;
+  margin-bottom: 15px;
 }

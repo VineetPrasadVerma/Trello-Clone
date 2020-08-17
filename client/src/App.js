@@ -2,8 +2,11 @@ import React, { useState } from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
 import Board from './components/Boards'
-import Navbar from './components/Navbar'
 import List from './components/Lists'
+import Login from './components/Auth/Login'
+import Register from './components/Auth/Register'
+
+import { Provider as AuthProvider } from './contexts/Auth'
 import { Provider as BoardProvider } from './contexts/Board'
 import { Provider as ListProvider } from './contexts/List'
 
@@ -21,24 +24,28 @@ function App () {
   return !error ? (
     <div className='App'>
       <Router>
+        <Switch>
+          <AuthProvider>
+            <Route exact path='/' component={Login} />
 
-        <BoardProvider handleError={showError}>
-          <Navbar />
-          <Switch>
+            <Route exact path='/register' component={Register} />
 
-            <Route path='/boards' exact>
-              <Board handleError={showError} />
+            <Route exact path='/boards'>
+              <BoardProvider handleError={showError}>
+                <Board handleError={showError} />
+              </BoardProvider>
             </Route>
 
-            <Route path='/boards/:bid/lists'>
-              <ListProvider handleError={showError}>
-                <List handleError={showError} />
-              </ListProvider>
+            <Route exact path='/boards/:bid/lists'>
+              <BoardProvider handleError={showError}>
+                <ListProvider handleError={showError}>
+                  <List handleError={showError} />
+                </ListProvider>
+              </BoardProvider>
             </Route>
 
-          </Switch>
-        </BoardProvider>
-
+          </AuthProvider>
+        </Switch>
       </Router>
     </div>
   ) : (

@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import { Context as BoardContext } from '../../contexts/Board'
+import Navbar from '../../components/Navbar'
 import { addBoard } from '../../services/Board'
 
 const Board = ({ handleError }) => {
@@ -27,31 +28,31 @@ const Board = ({ handleError }) => {
   }
 
   return (
-    <div className='board'>
+    <>
+      <Navbar />
+      <div className='board'>
+        {boards.map((board) => {
+          return (
+            <Link key={board.id} to={`/boards/${board.id}/lists`}>
+              <div className='boardItem'>
+                <p>{board.name}</p>
+              </div>
+            </Link>
+          )
+        })}
 
-      {boards.map((board) => {
-        return (
-          <Link key={board.id} to={`/boards/${board.id}/lists`}>
-            <div className='boardItem'>
-              <p>{board.name}</p>
-            </div>
-          </Link>
-        )
-      })}
-
-      <div className='boardItem' style={{ backgroundColor: 'lightgreen' }}>
-
-        <form onSubmit={handleAddBoard}>
-          <input
-            type='text'
-            value={boardName}
-            placeholder='Add New Board'
-            onChange={(e) => setBoardName(e.target.value)}
-          />
-        </form>
-
+        <div className='boardItem' style={{ backgroundColor: 'lightgreen' }}>
+          <form onSubmit={handleAddBoard}>
+            <input
+              type='text'
+              value={boardName}
+              placeholder='Add New Board'
+              onChange={(e) => setBoardName(e.target.value)}
+            />
+          </form>
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 
