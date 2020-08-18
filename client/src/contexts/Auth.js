@@ -6,10 +6,8 @@ export const Context = createContext()
 
 export const Provider = (props) => {
   const initialState = {
-    accessToken: window.localStorage.getItem('accessToken'),
     isAuthenticated: false,
-    user: null,
-    authError: null
+    user: null
   }
 
   const [authUser, authDispatch] = useReducer(AuthReducer, initialState)
@@ -19,15 +17,20 @@ export const Provider = (props) => {
       try {
         const res = await axios({
           method: 'GET',
-          url: '/',
-          headers: {
-            'Content-type': 'application/json',
-            'x-auth-token': window.localStorage.getItem('accessToken')
-          }
+          url: '/user'
         })
-        authDispatch({ type: 'LOAD_USER', user: res.data })
+
+        if (res.status === 200) {
+          authDispatch({
+            type: 'LOAD_USER',
+            user: res.data,
+            isAuthenticated: true
+          })
+        } else {
+          authDispatch({ type: 'LOAD_USER', user: {}, isAuthenticated: false })
+        }
       } catch (err) {
-        authDispatch({ type: 'AUTH_ERROR', message: 'Can\'t Find User' })
+        authDispatch({ type: 'LOAD_USER', user: {}, isAuthenticated: false })
       }
     }
 

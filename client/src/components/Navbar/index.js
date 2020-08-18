@@ -1,8 +1,22 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState, useContext } from 'react'
+import { Redirect, Link } from 'react-router-dom'
+
+import { Context as AuthContext } from '../../contexts/Auth'
 
 const Navbar = () => {
-  return (
+  const { authUser, authDispatch } = useContext(AuthContext)
+  const [isLogout, setIsLogout] = useState(false)
+
+  const handleLogout = () => {
+    document.cookie =
+      'x-auth-token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
+    authDispatch({ type: 'LOGOUT_USER' })
+    setIsLogout(true)
+  }
+
+  return isLogout ? (
+    <Redirect to='/' />
+  ) : (
     <nav>
       <Link to='/boards' style={{ float: 'left' }}>
         <p className='nav'>Boards</p>
@@ -12,11 +26,16 @@ const Navbar = () => {
           Trello
         </span>
       </Link>
-      <Link to='/boards' style={{ float: 'right' }}>
-        <p className='nav'>Logout</p>
-      </Link>
+      <p
+        onClick={handleLogout}
+        style={{ float: 'right' }}
+        className='nav'
+        id='logout'
+      >
+        Logout
+      </p>
       <p style={{ float: 'right' }} className='nav'>
-        Welcome Vineet!
+        Welcome {authUser.user.name}!
       </p>
     </nav>
   )

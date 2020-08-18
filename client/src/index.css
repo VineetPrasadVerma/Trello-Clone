@@ -260,6 +260,60 @@ hr{
 .login{
   width: 350px;
   margin: 100px auto;
+  background-color: rgb(75, 195, 110);
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.login h2{
+  text-align: center;
+}
+
+.login input{
+  background-color: #ebecf0;
+  text-align: left;
+}
+
+.login input::placeholder{
+  font-weight: normal;
+}
+
+.errorMessage{
+  text-align: center;
+  color: red;
+}
+
+.login button{
+  width: 25%;
+  margin-left: 130px;
+  font-weight: bolder;
+  font-size: 15px;
+  padding: 0.5em;
+  border-radius: 5px;
+  color: black;
+  border: 0px solid lightgreen;
+  outline: none;
+}
+
+.login button:hover{
+  cursor: pointer;
+}
+
+.login p{
+  text-align: center;
+}
+
+.registerLink{
+  color: black;
+  font-weight: 500;
+  text-decoration: underline;
+}
+
+
+.loginLink{
+  color: black;
+  font-weight: 500;
+  text-decoration: underline;
 }
 
 .emailContainer{
@@ -271,4 +325,8 @@ hr{
 .passwordContainer{
   margin-top: 15px;
   margin-bottom: 15px;
+}
+
+#logout:hover{
+  cursor: pointer;
 }

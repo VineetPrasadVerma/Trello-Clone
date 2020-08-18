@@ -1,12 +1,12 @@
 import React, { useContext, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 
 import { Context as BoardContext } from '../../contexts/Board'
 import Navbar from '../../components/Navbar'
 import { addBoard } from '../../services/Board'
 
 const Board = ({ handleError }) => {
-  const { boards, boardsDispatch } = useContext(BoardContext)
+  const { authUser, boards, boardsDispatch } = useContext(BoardContext)
   const [boardName, setBoardName] = useState('')
 
   const handleAddBoard = async (event) => {
@@ -27,7 +27,9 @@ const Board = ({ handleError }) => {
     }
   }
 
-  return (
+  return !authUser.isAuthenticated ? (
+    <Redirect to='/' />
+  ) : (
     <>
       <Navbar />
       <div className='board'>

@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, Redirect } from 'react-router-dom'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash, faBars } from '@fortawesome/free-solid-svg-icons'
@@ -14,7 +14,7 @@ import { addList, updateListName, deleteList } from '../../services/List'
 
 const List = ({ handleError }) => {
   const { boards, boardsDispatch } = useContext(BoardContext)
-  const { lists, listsDispatch } = useContext(ListContext)
+  const { authUser, lists, listsDispatch } = useContext(ListContext)
 
   const { bid } = useParams()
 
@@ -83,9 +83,12 @@ const List = ({ handleError }) => {
     setShowMenu(!showMenu)
   }
 
-  return boardName ? (
+  return !authUser.isAuthenticated ? (
+    <Redirect to='/' />
+  ) : (boardName ? (
     <>
       <Navbar />
+
       <div id='listContainer'>
         {showMenu ? (
           <BoardMenu
@@ -110,6 +113,7 @@ const List = ({ handleError }) => {
             <FontAwesomeIcon onClick={handleShowMenu} icon={faBars} />
           </div>
         </div>
+
         <div className='list'>
           {lists.map((list) => {
             return (
@@ -151,7 +155,7 @@ const List = ({ handleError }) => {
     </>
   ) : (
     <></>
-  )
+  ))
 }
 
 export default List

@@ -4,7 +4,7 @@ const auth = require('../middleware/authorization')
 
 const { registerUser, loginUser, getCurrentUser } = require('./userModel')
 
-router.get('/', auth, getCurrentUser)
+router.get('/user', auth, getCurrentUser)
 router.post('/', loginUser)
 router.post('/register', registerUser)
 

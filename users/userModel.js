@@ -26,7 +26,10 @@ const registerUser = async (req, res) => {
         process.env.ACCESS_TOKEN_SECRET,
         { expiresIn: 3600 }
       )
-      return res.status(201).json({ accessToken, user: newUser.rows[0] })
+      return res
+        .status(201)
+        .cookie('x-auth-token', accessToken, { maxAge: 3600000 })
+        .json({ accessToken, user: newUser.rows[0] })
     }
 
     return res.status(400).json({ message: 'Email already exists' })
@@ -43,9 +46,7 @@ const loginUser = async (req, res) => {
   }
 
   try {
-    const user = await pool.query(
-      `SELECT * FROM USERS WHERE email='${email}'`
-    )
+    const user = await pool.query(`SELECT * FROM USERS WHERE email='${email}'`)
 
     if (user.rowCount === 0) {
       return res.status(401).json({ message: 'Invalid credentials' })
@@ -53,7 +54,9 @@ const loginUser = async (req, res) => {
 
     const isMatch = await bcrypt.compare(password, user.rows[0].password)
 
-    if (!isMatch) return res.status(401).json({ message: 'Invalid credentials' })
+    if (!isMatch) {
+      return res.status(401).json({ message: 'Invalid credentials' })
+    }
 
     const accessToken = jwt.sign(
       { userId: user.rows[0].id },
@@ -61,7 +64,10 @@ const loginUser = async (req, res) => {
       { expiresIn: 3600 }
     )
 
-    return res.status(200).json({ accessToken, user: user.rows[0] })
+    return res
+      .status(200)
+      .cookie('x-auth-token', accessToken, { maxAge: 3600000 })
+      .json({ accessToken, user: user.rows[0] })
   } catch (err) {
     return res.status(500).json({ message: 'Some error occured' })
   }
@@ -71,13 +77,17 @@ const getCurrentUser = async (req, res) => {
   const userId = req.user.userId
 
   try {
-    const user = await pool.query(`SELECT id, name FROM users WHERE id = ${userId}`)
+    const user = await pool.query(
+      `SELECT id, name FROM users WHERE id = ${userId}`
+    )
 
-    if (!user.rowCount) return res.status(400).json({ message: 'User not found' })
+    if (!user.rowCount) {
+      return res.status(400).json({ message: 'User not found' })
+    }
 
     return res.status(200).json(user.rows[0])
   } catch (err) {
-    return res.status(500).json({ message: 'Can\'t find User' })
+    return res.status(500).json({ message: "Can't find User" })
   }
 }
 module.exports = { registerUser, loginUser, getCurrentUser }

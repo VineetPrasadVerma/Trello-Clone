@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState, useContext } from 'react'
 import { Redirect, Link } from 'react-router-dom'
 
 import axios from 'axios'
@@ -7,21 +7,12 @@ import { Context as AuthContext } from '../../contexts/Auth'
 
 const Register = () => {
   const { authUser, authDispatch } = useContext(AuthContext)
-  console.log(authUser)
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [message, setMessage] = useState('')
 
-  useEffect(() => {
-    const accessToken = authUser.accessToken
-    if (accessToken) {
-      setIsLoggedIn(true)
-    }
-  }, [])
-
-  const registerUser = async (event) => {
+  const handleRegisterUser = async (event) => {
     event.preventDefault()
 
     try {
@@ -32,22 +23,24 @@ const Register = () => {
         headers: { 'Content-type': 'application/json' }
       })
 
-      authDispatch({
-        type: 'REGISTER_USER',
-        accessToken: res.data.accessToken,
-        user: res.data.user
-      })
-
-      console.log('After', authUser)
+      if (res.status === 201) {
+        authDispatch({
+          type: 'REGISTER_USER',
+          user: res.data.user
+        })
+      }
     } catch (e) {
-      console.log('Registet', e)
+      authDispatch({
+        type: 'LOGOUT_USER'
+      })
+      setMessage(e.response.data.message)
     }
   }
 
   return authUser.isAuthenticated ? (
     <Redirect to='/boards' />
   ) : (
-    <form onSubmit={registerUser}>
+    <form onSubmit={handleRegisterUser}>
       <div className='login'>
         <h2>SignUp</h2>
         <div className='errorMessage'>{message}</div>
@@ -87,7 +80,7 @@ const Register = () => {
 
         <button type='submit'>SignUp</button>
         <p>
-          Already have an account? <Link to='/'>Login here.</Link>
+          Already have an account? <Link className='loginLink' to='/'>Login here.</Link>
         </p>
       </div>
     </form>
