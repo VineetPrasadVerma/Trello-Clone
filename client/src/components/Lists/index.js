@@ -92,6 +92,7 @@ const List = ({ handleError }) => {
       <div id='listContainer'>
         {showMenu ? (
           <BoardMenu
+            authUser={authUser}
             setShowMenu={setShowMenu}
             bid={bid}
             handleError={handleError}

@@ -11,7 +11,7 @@ import {
   faTimes
 } from '@fortawesome/free-solid-svg-icons'
 
-const BoardMenu = ({ setShowMenu, bid, handleError }) => {
+const BoardMenu = ({ authUser, setShowMenu, bid, handleError }) => {
   const { boardsDispatch } = useContext(BoardContext)
   const [redirectToBoard, setRedirectToBoard] = useState(false)
 
@@ -39,7 +39,7 @@ const BoardMenu = ({ setShowMenu, bid, handleError }) => {
         <hr />
         <div style={{ margin: '20px' }}>
           <FontAwesomeIcon style={{ marginRight: '10px' }} icon={faUserAlt} />
-          Made by Vineet
+          Made by {authUser.user.name}
         </div>
         <div
           onClick={handleDeleteBoard}
